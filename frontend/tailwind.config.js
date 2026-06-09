@@ -18,7 +18,7 @@ export default {
         'border-subtle': '#232b38',
       },
       fontFamily: {
-        sans: ['DM Sans', 'system-ui', 'sans-serif'],
+        sans: ['DM Sans','Inter', 'system-ui', 'sans-serif'],
         mono: ['JetBrains Mono', 'monospace'],
         display: ['Syne', 'sans-serif'],
       },

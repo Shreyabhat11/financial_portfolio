@@ -13,3 +13,5 @@ yfinance
 requests
 pandas
 httpx
+requests
+kiteconnect

@@ -10,6 +10,9 @@ class Settings(BaseSettings):
     GOOGLE_API_KEY: str
     ZERODHA_API_KEY: str
     ZERODHA_API_SECRET: str
+    UPSTOX_API_KEY: str
+    UPSTOX_API_SECRET: str
+    UPSTOX_REDIRECT_URI: str
 
     class Config:
         env_file = ".env"

@@ -244,7 +244,7 @@ const Landing = () => {
               >
                 
 
-                <h1 className="font-display font-bold text-5xl lg:text-6xl leading-tight mb-6">
+                <h1 className="font-sans font-bold text-5xl lg:text-6xl leading-tight mb-6">
                   <span className="text-accent">UNLOCK SMARTER</span>
                   <br />
                   <span className="text-white">INVESTMENT WITH</span>
@@ -303,7 +303,7 @@ const Landing = () => {
       </section>
 
       {/* Stats bar */}
-      <section className="border-y border-border-subtle bg-card/40 py-12">
+      {/* <section className="border-y border-border-subtle bg-card/40 py-12">
         <div className="max-w-5xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8">
           {[
             { value: '50K+', label: 'Active Investors' },
@@ -312,7 +312,7 @@ const Landing = () => {
             { value: '4.9★', label: 'Average Rating' },
           ].map((s, i) => <Stat key={i} {...s} index={i} />)}
         </div>
-      </section>
+      </section> */}
 
       {/* Features */}
       <section id="features" className="py-20">
@@ -326,7 +326,7 @@ const Landing = () => {
             <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/25 rounded-full px-4 py-1.5 text-accent text-xs font-semibold mb-4">
               Everything You Need
             </div>
-            <h2 className="font-display font-bold text-4xl text-white mb-3">
+            <h2 className="font-mono font-bold text-4xl text-white mb-3">
               AI-Powered Portfolio Management
             </h2>
             <p className="text-text-secondary max-w-xl mx-auto">
@@ -357,7 +357,7 @@ const Landing = () => {
             viewport={{ once: true }}
             className="text-center mb-14"
           >
-            <h2 className="font-display font-bold text-4xl text-white mb-3">How It Works</h2>
+            <h2 className="font-mono font-bold text-4xl text-white mb-3">How It Works</h2>
             <p className="text-text-secondary">Up and running in three simple steps</p>
           </motion.div>
 
