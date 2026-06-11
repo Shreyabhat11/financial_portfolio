@@ -1,8 +1,9 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Request
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
 from app.core.dependencies import get_current_user
+from app.core.rate_limit import limiter
 from app.models.user import User
 from app.services.market_service import get_stock_price
 from app.services.ai_service import analyze_stock, portfolio_health_analysis
@@ -26,7 +27,9 @@ def _parse_signal(text: str) -> str:
 
 
 @router.get("/analyze/{symbol}")
+@limiter.limit("10/minute")
 def analyze_stock_api(
+    request: Request,   
     symbol: str,
     current_user: User = Depends(get_current_user)
 ):

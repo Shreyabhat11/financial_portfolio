@@ -1,6 +1,7 @@
 import re
 import google.generativeai as genai
 from app.core.config import settings
+from app.services.ai_cache import get_cached_ai_response, set_cached_ai_response
 
 genai.configure(api_key=settings.GOOGLE_API_KEY)
 model = genai.GenerativeModel("gemini-2.5-flash-lite")
@@ -15,6 +16,13 @@ def _clean(text: str) -> str:
 
 
 def analyze_stock(stock_symbol: str, current_price: float, market_trend: str) -> str:
+
+    cache_key = f"ai:{stock_symbol}:{market_trend}"
+
+    cached = get_cached_ai_response(cache_key)
+    if cached:
+        return cached
+
     prompt = (
         f"Analyze {stock_symbol} (NSE India). Current price: ₹{current_price}. "
         f"Market trend: {market_trend}.\n\n"
@@ -30,12 +38,21 @@ def analyze_stock(stock_symbol: str, current_price: float, market_trend: str) ->
     )
     try:
         response = model.generate_content(prompt)
+
+        set_cached_ai_response(cache_key, {"analysis": response.text})
+
         return _clean(response.text)
     except Exception as e:
         return f"Analysis unavailable: {str(e)}"
 
 
 def portfolio_health_analysis(portfolio_summary: str) -> str:
+
+    cache_key = f"ai:portfolio_health:{hash(portfolio_summary)}"
+
+    cached = get_cached_ai_response(cache_key)
+    if cached:
+        return cached
     prompt = (
         f"Analyze this Indian stock portfolio:\n{portfolio_summary}\n\n"
         "Provide:\n"
@@ -49,6 +66,7 @@ def portfolio_health_analysis(portfolio_summary: str) -> str:
     )
     try:
         response = model.generate_content(prompt)
+        set_cached_ai_response(cache_key, {"analysis": response.text})
         return _clean(response.text)
     except Exception as e:
         return f"Analysis unavailable: {str(e)}"

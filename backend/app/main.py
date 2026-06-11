@@ -12,23 +12,14 @@ from app.routers.dashboard import router as dashboard_router
 from app.routers.settings import router as settings_router
 from app.websocket.market_ws import router as websocket_router
 
-app = FastAPI(
-    title="AI Investment Platform",
-    version="1.0.0",
-    docs_url="/docs",
-    redoc_url="/redoc"
-)
+app = FastAPI(title="AI Investment Platform", version="1.0.0")
 
-# Allow ALL localhost ports so the frontend works regardless of Vite port
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:3000",
-        "http://localhost:3001",
-        "http://localhost:3002",
-        "http://localhost:5173",
-        "http://127.0.0.1:3000",
-        "http://127.0.0.1:3001",
+        "http://localhost:3000", "http://localhost:3001",
+        "http://localhost:3002", "http://localhost:5173",
+        "http://127.0.0.1:3000", "http://127.0.0.1:3001",
         "http://127.0.0.1:5173",
     ],
     allow_credentials=True,
@@ -47,6 +38,14 @@ app.include_router(broker_router)
 app.include_router(dashboard_router)
 app.include_router(settings_router)
 
+
+@app.on_event("startup")
+async def startup_event():
+    """Start background sync scheduler when the server boots."""
+    from app.services.sync_service import start_background_sync
+    start_background_sync(app)
+
+
 @app.get("/")
 def home():
-    return {"message": "AI Investment Platform API Running", "version": "1.0.0"}
+    return {"message": "AI Investment Platform API", "version": "1.0.0"}
